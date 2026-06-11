@@ -22,8 +22,13 @@ export class TaskList {
         return this.#id;
     }
 
-    addTodo(title, priority, desc, due) {
-        const todo = new Todo(title, priority, desc, due);
+    addTodo(request) {
+        const todo = new Todo(
+            request.title,
+            request.priority,
+            request.desc,
+            request.due
+        );
         this.#todos.push(todo);
     }
 
@@ -42,7 +47,7 @@ export class TaskList {
         const acceptedKeys = ['title', 'priority', 'desc', 'due'];
         const todo = this.#todos.find(item => item.id === id);
         
-        if(!todo) throw new Error('this todo isn\'t found');
+        if(!todo) throw new Error('invalid todo id');
 
         for(let key in changes) {
             if(!acceptedKeys.includes(key)) throw new Error ('invalid update request');
