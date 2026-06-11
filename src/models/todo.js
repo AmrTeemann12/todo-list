@@ -1,21 +1,26 @@
-import {todoValidate} from './validators.js';
+import {validateTitle, validateDesc, validatePriority, validateDue} from '../validators.js';
 
 export class Todo {    
     #dateCreated = new Date();
+    #id = crypto.randomUUID();
     #title;
     #priority;
     #desc;
     #due;
 
     constructor(title, priority = 'moderate', desc = '', due = null){
-        this.#title = todoValidate.title(title);
-        this.#priority = todoValidate.priority(priority);
-        this.#desc = todoValidate.desc(desc);
-        this.#due = todoValidate.due(due, this.#dateCreated);
+        this.#title = validateTitle(title);
+        this.#priority = validatePriority(priority);
+        this.#desc = validateDesc(desc);
+        this.#due = validateDue(due, this.#dateCreated);
     }
 
     get dateCreated() {
         return this.#dateCreated;
+    }
+
+    get id() {
+        return this.#id;
     }
 
     get title() {
@@ -31,23 +36,22 @@ export class Todo {
     }
 
     get due() {
-        if(this.#due === null) return null;
         return this.#due;
     }
 
     set title(newTitle) {
-        this.#title = todoValidate.title(newTitle);
+        this.#title = validateTitle(newTitle);
     }
 
     set priority(newPriority) {
-        this.#priority = todoValidate.priority(newPriority);
+        this.#priority = validatePriority(newPriority);
     }
 
     set desc(newText) {
-        this.#desc = todoValidate.desc(newText);
+        this.#desc = validateDesc(newText);
     }
 
     set due(newDueDate) {
-        this.#due = todoValidate.due(newDueDate, this.#dateCreated);
+        this.#due = validateDue(newDueDate, this.#dateCreated);
     }
 }
