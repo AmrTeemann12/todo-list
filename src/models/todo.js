@@ -16,7 +16,7 @@ export class Todo {
     }
 
     get dateCreated() {
-        return this.#dateCreated;
+        return new Date(this.#dateCreated);
     }
 
     get id() {
@@ -36,7 +36,7 @@ export class Todo {
     }
 
     get due() {
-        return this.#due;
+        return this.#due? new Date(this.#due): null;
     }
 
     set title(newTitle) {

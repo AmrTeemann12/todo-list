@@ -4,6 +4,7 @@ import { Todo } from "./todo.js";
 export class TaskList {
     #todos = [];
     #title;
+    #id = crypto.randomUUID();
 
     constructor(title) {
         this.#title = validateTitle(title);
@@ -17,15 +18,13 @@ export class TaskList {
         this.#title = validateTitle(newTitle);
     }
 
+    get id() {
+        return this.#id;
+    }
+
     addTodo(title, priority, desc, due) {
-        this.#todos.forEach(item => {
-            if(item.title === title) {
-                throw new Error('this todo already exists in the current list')
-            }
-        })
         const todo = new Todo(title, priority, desc, due);
-        
-        this.#todos.push(todo)
+        this.#todos.push(todo);
     }
 
     readTodos() {
@@ -40,10 +39,14 @@ export class TaskList {
     }
 
     updateTodo(id, changes) {
+        const acceptedKeys = ['title', 'priority', 'desc', 'due'];
         const todo = this.#todos.find(item => item.id === id);
-        if(!todo) throw new Error('this todo isn\'t found');
         
+        if(!todo) throw new Error('this todo isn\'t found');
+
         for(let key in changes) {
+            if(!acceptedKeys.includes(key)) throw new Error ('invalid update request');
+
             todo[key] = changes[key];
         }
     }
