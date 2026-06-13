@@ -1,4 +1,10 @@
-import {validateTitle, validateDesc, validatePriority, validateDue} from '../validators.js';
+import {
+    validateTitle,
+    validateDesc,
+    validatePriority,
+    validateStartDate,
+    validateDue,
+} from '../validators.js';
 
 export class Todo {    
     #dateCreated = new Date();
@@ -6,13 +12,15 @@ export class Todo {
     #title;
     #priority;
     #desc;
+    #startDate;
     #due;
 
-    constructor(title, priority = 'moderate', desc = '', due = null){
+    constructor(title, priority = 'moderate', desc = '', startDate = this.#dateCreated, due = null){
         this.#title = validateTitle(title);
         this.#priority = validatePriority(priority);
         this.#desc = validateDesc(desc);
-        this.#due = validateDue(due, this.#dateCreated);
+        this.#startDate = validateStartDate(startDate, this.#dateCreated, due);
+        this.#due = validateDue(due, this.#startDate);
     }
 
     get dateCreated() {
@@ -35,6 +43,10 @@ export class Todo {
         return this.#desc;
     }
 
+    get startDate() {
+        return new Date(this.#startDate);
+    }
+
     get due() {
         return this.#due? new Date(this.#due): null;
     }
@@ -49,6 +61,10 @@ export class Todo {
 
     set desc(newText) {
         this.#desc = validateDesc(newText);
+    }
+
+    set startDate(newStartDate) {
+        this.#startDate = validateStartDate(newStartDate, this.#dateCreated, this.#due);
     }
 
     set due(newDueDate) {

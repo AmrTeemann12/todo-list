@@ -6,20 +6,21 @@ export class TaskList {
     #title;
     #id = crypto.randomUUID();
 
-    constructor(title) {
+    constructor(title, category) {
         this.#title = validateTitle(title);
+        this.category = category;
     }
 
     get title() {
         return this.#title;
     }
 
-    set title(newTitle) {
-        this.#title = validateTitle(newTitle);
-    }
-
     get id() {
         return this.#id;
+    }
+
+    set title(newTitle) {
+        this.#title = validateTitle(newTitle);
     }
 
     addTodo(request) {
@@ -27,6 +28,7 @@ export class TaskList {
             request.title,
             request.priority,
             request.desc,
+            request.startDate,
             request.due
         );
         this.#todos.push(todo);
@@ -38,13 +40,14 @@ export class TaskList {
             id: item.id,
             title: item.title,
             priority: item.priority,
+            startDate: item.startDate,
             desc: item.desc,
             due: item.due,
         }))
     }
 
     updateTodo(id, changes) {
-        const acceptedKeys = ['title', 'priority', 'desc', 'due'];
+        const acceptedKeys = ['title', 'priority', 'desc', 'due', 'startDate'];
         const todo = this.#todos.find(item => item.id === id);
         
         if(!todo) throw new Error('invalid todo id');
@@ -59,7 +62,7 @@ export class TaskList {
     removeTodo(id) {
         const todoIndex = this.#todos.findIndex(item => item.id === id);
         if(todoIndex === -1) {
-            throw new Error('this todo doesn\'t exist in the current list')
+            throw new Error('invalid todo id')
         } else {
             this.#todos.splice(todoIndex, 1);
             return true;
