@@ -6,42 +6,38 @@ function sortAsc(todos) {
 }
 
 //take array of lists as argument
-//return an object with time sorted arrays of todos
+//return an object with a time-base sorted arrays of todos
 export function allTodosTimeArrange(lists) {
     const pastTodos = [];
     const todayTodos = [];
     const tomorrowTodos = [];
     const thisWeekTodos = [];
     const laterTodos = [];
+    const allTodos = [];
     
     const today = startOfToday();
     const tomorrow = startOfTomorrow();
     const afterTomorrow = addDays(startOfTomorrow(), 1);
     const nextWeek = addWeeks(startOfToday(), 1);
 
-    lists.forEach(list => {
-        list.todos.forEach(todo => {
-            const date = todo.startDate;
-            
-            if(isBefore(date, today)) {
-                pastTodos.push(todo);
-            } else if(isBefore(date, tomorrow)) {
-                todayTodos.push(todo);
-            } else if(isBefore(date, afterTomorrow)) {
-                tomorrowTodos.push(todo);
-            } else if(isBefore(date, nextWeek)) {
-                thisWeekTodos.push(todo);
-            } else {
-                laterTodos.push(todo);
-            }
-        })
-    });
+    lists.forEach(list => list.todos.forEach(todo => allTodos.push(todo)))
+    sortAsc(allTodos);
 
-    sortAsc(pastTodos);
-    sortAsc(todayTodos);
-    sortAsc(tomorrowTodos);
-    sortAsc(thisWeekTodos);
-    sortAsc(laterTodos);
+    allTodos.forEach(todo => {
+        const date = todo.startDate;
+            
+        if(isBefore(date, today)) {
+            pastTodos.push(todo);
+        } else if(isBefore(date, tomorrow)) {
+            todayTodos.push(todo);
+        } else if(isBefore(date, afterTomorrow)) {
+            tomorrowTodos.push(todo);
+        } else if(isBefore(date, nextWeek)) {
+            thisWeekTodos.push(todo);
+        } else {
+            laterTodos.push(todo);
+        }
+    });
 
     return {
         pastTodos,
@@ -49,12 +45,12 @@ export function allTodosTimeArrange(lists) {
         tomorrowTodos,
         thisWeekTodos,
         laterTodos,
-        allTodos: pastTodos.concat(todayTodos, tomorrowTodos, thisWeekTodos, laterTodos)
+        allTodos,
     };
 }
 
 //take a taskList as argument
-//return a sorted array of todos
+//return a time-base sorted array of todos
 export function listTodosTimeArrange(list) {
     sortAsc(list.todos)
     return list.todos;

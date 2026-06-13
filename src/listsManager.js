@@ -30,7 +30,7 @@ export function createList(title, category = 'general', todoRequests) {
 }
 
 export function addTodoToList(listId, todoRequest) {
-    list = findListById(listId)
+    const list = findListById(listId)
 
     list.addTodo(todoRequest);
 }

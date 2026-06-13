@@ -31,3 +31,4 @@ createList('somethings to do', 'general', [
     {title: 'something to do5', startDate: new Date('2026-7-12'), due: new Date('2026-08-12T10:00')},
 ])
 
+console.log(allTodosTimeArrange(readAllLists()))

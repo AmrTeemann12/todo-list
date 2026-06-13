@@ -68,6 +68,6 @@ export class Todo {
     }
 
     set due(newDueDate) {
-        this.#due = validateDue(newDueDate, this.#dateCreated);
+        this.#due = validateDue(newDueDate, this.#startDate);
     }
 }
