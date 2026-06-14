@@ -14,6 +14,7 @@ export class Todo {
     #desc;
     #startDate;
     #due;
+    #completed = false;
 
     constructor(title, priority = 'moderate', desc = '', startDate = this.#dateCreated, due = null){
         this.#title = validateTitle(title);
@@ -51,6 +52,10 @@ export class Todo {
         return this.#due? new Date(this.#due): null;
     }
 
+    get completed() {
+        return this.#completed;
+    }
+
     set title(newTitle) {
         this.#title = validateTitle(newTitle);
     }
@@ -69,5 +74,9 @@ export class Todo {
 
     set due(newDueDate) {
         this.#due = validateDue(newDueDate, this.#startDate);
+    }
+
+    toggleStat() {
+        this.#completed = !this.#completed;
     }
 }

@@ -6,6 +6,19 @@ function sortAsc(todos) {
 }
 
 //take array of lists as argument
+//return object with keys as categories names/ values as array with its lists
+export function sortListCategories(lists, categories) {
+    const categoriesList = {};
+    categories.forEach(cat => categoriesList[cat] = []);
+    
+    lists.forEach(list => {
+        categoriesList[list.category].push(list)
+    })
+    
+    return categoriesList;
+}
+
+//take array of lists as argument
 //return an object with a time-base sorted arrays of todos
 export function allTodosTimeArrange(lists) {
     const pastTodos = [];
@@ -20,7 +33,10 @@ export function allTodosTimeArrange(lists) {
     const afterTomorrow = addDays(startOfTomorrow(), 1);
     const nextWeek = addWeeks(startOfToday(), 1);
 
-    lists.forEach(list => list.todos.forEach(todo => allTodos.push(todo)))
+    lists.forEach(list => list.todos.forEach(todo => {
+        todo.list = list.title;
+        allTodos.push(todo)
+    }))
     sortAsc(allTodos);
 
     allTodos.forEach(todo => {

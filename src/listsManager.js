@@ -1,5 +1,5 @@
 import { TaskList } from "./models/list.js";
-import { Categories } from "./models/categories.js";
+import { categoryAdd, categoryDelete, categoryNames } from "./models/category.js";
 
 const lists = [];
 
@@ -15,7 +15,7 @@ export function createList(title, category = 'general', todoRequests) {
         throw new Error('list title must be unique');
     }
 
-    if(!Categories.names().includes(category.toLowerCase())) {
+    if(!categoryNames().includes(category.toLowerCase())) {
         throw new Error('invalid category name');
     }
     const list = new TaskList(title, category);
@@ -44,19 +44,6 @@ export function readAllLists() {
     }))
 }
 
-export function readCategoryLists(categoryName) {
-    if(!Categories.names().includes(categoryName)) {
-        throw new Error('no category found by this name')
-    }
-    const categoryLists = lists.filter(list => list.category === categoryName);
-    return categoryLists.map(list => ({
-        id: list.id,
-        title: list.title,
-        category: list.category,
-        todos: list.readTodos()
-    }))
-}
-
 export function changeListTitle(listId, newTitle) {
     const targetList = findListById(listId)
 
@@ -69,9 +56,13 @@ export function changeListTitle(listId, newTitle) {
 
 export function changeListCategory(listId, categoryName) {
     const targetList = findListById(listId);
-    const currentCategoryLists = readCategoryLists(categoryName);
+    const currentCategoryLists = lists.filter(list => list.category === categoryName);
 
-    if(!Categories.names().includes(categoryName.toLowerCase())) {
+    if(targetList.category === categoryName.toLowerCase()) {
+        return; 
+    }
+
+    if(!categoryNames().includes(categoryName.toLowerCase())) {
         throw new Error('invalid category name');
     }
 
@@ -82,10 +73,44 @@ export function changeListCategory(listId, categoryName) {
     targetList.category = categoryName.toLowerCase();
 }
 
+export function CategoryRename(currentName, newName) {
+    if(currentName === 'general') {
+        throw new Error('general category can\'t be renamed')
+    }
+
+    categoryAdd(newName);
+    lists.forEach(list => {
+        if(list.category === currentName){
+           list.category = newName.toLowerCase();
+        }
+    });
+    categoryDelete(currentName)
+}
+
 export function updateTodoInList(listId, todoId, changes) {
     const list = findListById(listId);
 
     list.updateTodo(todoId, changes);
+}
+
+export function toggleTodoStatInList(listId, todoId) {
+    const list = findListById(listId);
+    
+    list.toggleTodoStat(todoId);
+}
+
+export function removeCategory(categoryName) {
+    if(!categoryNames().includes(categoryName)) {
+        throw new Error(`${categoryName} doesn\'t exist`);
+    }
+    
+    lists.forEach(list => {
+        if(list.category === categoryName) {
+            list.category = 'general';
+        }
+    });
+
+    categoryDelete(categoryName);
 }
 
 export function removeList(listId) {

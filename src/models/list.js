@@ -6,6 +6,13 @@ export class TaskList {
     #title;
     #id = crypto.randomUUID();
 
+    #findTodoById(id) {
+        const todo = this.#todos.find(item => item.id === id);
+        if(!todo) throw new Error('invalid todo id');
+
+        return todo;
+    }
+
     constructor(title, category) {
         this.#title = validateTitle(title);
         this.category = category;
@@ -32,6 +39,7 @@ export class TaskList {
             request.due
         );
         this.#todos.push(todo);
+        return todo;
     }
 
     readTodos() {
@@ -43,20 +51,24 @@ export class TaskList {
             startDate: item.startDate,
             desc: item.desc,
             due: item.due,
+            completed: item.completed,
         }))
     }
 
     updateTodo(id, changes) {
         const acceptedKeys = ['title', 'priority', 'desc', 'due', 'startDate'];
-        const todo = this.#todos.find(item => item.id === id);
-        
-        if(!todo) throw new Error('invalid todo id');
+        const todo = this.#findTodoById(id);
 
         for(let key in changes) {
             if(!acceptedKeys.includes(key)) throw new Error ('invalid update request');
-
             todo[key] = changes[key];
         }
+        return true;
+    }
+
+    toggleTodoStat(id) {
+        const todo = this.#findTodoById(id);
+        todo.toggleStat();
     }
 
     removeTodo(id) {
