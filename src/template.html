@@ -8,17 +8,25 @@
 <body>
     <nav>
         <div class="main-list">
-            <ul>
-                <li><button>Today</button></li>
-                <li><button>All To-Dos</button></li>
-                <li><button>All Lists</button></li>
-            </ul>
-        </div>
-        <div class="nav-categories">
+            <button id="today">Today</button>
+            <button id="all-to-dos">All To-Dos</button>
+            <button id="all-lists">All Lists</button>
         </div>
     </nav>
     <main>
 
     </main>
+    <button id="add-main">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40px" viewBox="0 0 100 100">
+            <line class="add-svg-line" x1="50" y1="10" x2="50" y2="90"
+            />
+            <line class="add-svg-line" x1="10" y1="50" x2="90" y2="50"
+            />
+        </svg>
+    </button>
+    <div id="add-main-tooltip">
+        <button id="add-tasklist-main">Add Task List</button>
+        <button id="add-category-main">Add Category</button>
+    </div>
 </body>
 </html>

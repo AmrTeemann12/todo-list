@@ -40,7 +40,8 @@ export function readAllLists() {
         id: list.id,
         title: list.title,
         category: list.category,
-        todos: list.readTodos()
+        todos: list.readTodos(),
+        stat: list.listStat()
     }))
 }
 
@@ -73,7 +74,7 @@ export function changeListCategory(listId, categoryName) {
     targetList.category = categoryName.toLowerCase();
 }
 
-export function CategoryRename(currentName, newName) {
+export function categoryRename(currentName, newName) {
     if(currentName === 'general') {
         throw new Error('general category can\'t be renamed')
     }
@@ -95,8 +96,9 @@ export function updateTodoInList(listId, todoId, changes) {
 
 export function toggleTodoStatInList(listId, todoId) {
     const list = findListById(listId);
-    
+
     list.toggleTodoStat(todoId);
+    return true;
 }
 
 export function removeCategory(categoryName) {

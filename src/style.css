@@ -1,0 +1,415 @@
+*, *::after, *::before {
+    box-sizing: border-box;
+    padding: 0;
+}
+
+*:not(dialog) {
+    margin: 0;
+}
+
+input,
+button {
+    font-family: inherit;
+    font-size: 100%;
+    color: inherit;
+}
+
+li {
+    list-style: none;
+}
+
+:root {
+    --ff: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    --text-xs: 0.625rem;
+    --text-s: 0.875rem;
+    --text-base: 1rem;
+    --text-m: 1.125rem;
+    --text-l: 1.825rem;
+    --text-xl: 2.5rem;
+    --text-xl-header: 4rem;
+
+    --fw-normal: 400;
+    --fw-semibold: 500;
+    --fw-bold: 700;
+
+    --clr-text-primary: #292929;
+    --clr-text-primary-dim: #6e6e6e;
+    --clr-text-secondary: #e7e7e7;
+
+    --clr-bg: #f0f0f0;
+    --clr-bg-dim: #d7d7d7;
+    --clr-bg-l: #ffffff;
+    --clr-primary: #308df0;
+    --clr-primary-overlay: #308df0bd;
+    --clr-primary-d: #167ce9;
+    --clr-primary-l: #6db0f7;
+    --clr-primary-vl: #add1f7;
+    --clr-secondary: #f05757;
+    --clr-tertiary: #64fa3f;
+    --clr-quaternary: #f0c330;
+
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 16px;
+    --space-4: 32px;
+    --space-5: 64px;
+
+    --card-box-shadow: 1px 2px 4px 1px rgba(0, 0, 0, 0.219);
+
+}
+
+html {
+    scrollbar-width: thin;
+}
+
+body {
+    font-family: var(--ff);
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    background-color: var(--clr-bg);
+    color: var(--clr-text-primary);
+
+    min-height: 100vh;
+}
+
+nav {
+    background-color: var(--clr-primary);
+    color: var(--clr-text-secondary);
+    padding: calc(var(--space-1));
+    
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+.main-list button {
+    width: 100%;
+    background-color: var(--clr-bg-l);
+    color: var(--clr-primary-d);
+    font-weight: var(--fw-bold);
+    
+    padding: var(--space-2) var(--space-3);
+
+    border: none;
+    margin-bottom: var(--space-1);
+    cursor: pointer;
+
+    transition: all 0.4s;
+}
+
+.main-list button:hover,
+.main-list button:active {
+    background-color: var(--clr-primary-vl);
+    
+}
+
+.nav-categories {
+    padding: var(--space-2) 0;
+}
+
+.nav-category {
+    margin-bottom: var(--space-2);
+}
+
+.nav-category > button {
+    width: 100%;
+    text-align: left;
+    background-color: var(--clr-primary-d);
+    
+    border: none;
+    border-bottom: 2px solid;
+    padding: var(--space-2);
+    cursor: pointer;
+
+    transition: all 0.4s;
+}
+
+.nav-category > button:hover {
+    background-color: var(--clr-primary-l);
+}
+
+
+.nav-categories ul {
+    margin-left: var(--space-3);
+    background-color: var(--clr-primary-light);
+}
+
+.nav-list-title{
+    text-align: left;
+    background-color: inherit;
+    color: var(--clr-text-secondary);
+    padding: var(--space-1);
+    border: none;
+    
+    display: inline-block;
+    width: 100%;
+    overflow: hidden;
+    text-overflow:ellipsis;
+
+    cursor: pointer;
+    transition: all 0.4s;
+}
+
+.nav-list-title:hover {
+    background-color: var(--clr-primary-l);
+}
+
+main li {
+    display: grid;
+}
+
+h1 {
+    margin-bottom: var(--space-3);
+    font-weight: var(--fw-bold);
+    padding: var(--space-3) var(--space-2);
+
+    background-color: var(--clr-primary-l);
+    color: var(--clr-text-secondary);
+}
+
+.content-container {
+    padding: var(--space-2);
+}
+
+.all-to-do-container h2{
+    font-weight: var(--fw-bold);
+    background-color: var(--clr-bg-dim);
+
+    padding: var(--space-2);
+    border-bottom: 1px solid var(--clr-text-primary);
+    margin-bottom: var(--space-3);
+}
+
+.category-and-list-view {
+    display: block;
+    font-size: var(--text-s);
+    font-weight: var(--fw-normal);
+}
+
+.badged-todo-list li{
+    grid-template-areas: 
+    "badge badge badge"
+    "check title priority";
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    margin-bottom: var(--space-3);
+}
+
+.badged-tasklist-list > li{
+    grid-template-areas: 
+    "badge badge"
+    "title stat"
+    "list list";
+    align-items: center;
+    margin-bottom: var(--space-3);
+}
+
+.todo-details > div {
+    margin-bottom: var(--space-1);
+}
+
+.todo-detail-label {
+    display: inline-block;
+    width: 100px;
+}
+
+.tasklist-list-item {
+    grid-template-areas: 
+    "title stat"
+    "list list";
+    margin-bottom: var(--space-3)
+}
+
+.badged-tasklist-list .top-badge {
+    grid-area: badge;
+}
+
+.top-badge {
+    font-size: var(--text-xs);
+
+    padding: 4px;
+    display: inline-block;
+    border: 1px solid;
+    border-radius: var(--space-3);
+
+    justify-self: start;
+    grid-area: badge;
+
+    max-width: 25ch;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tasklist-todo-list {
+    grid-area: list;
+}
+
+.todo-list-item {
+    position: relative;
+    background-color: var(--clr-text-secondary);
+
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 5px;
+
+    padding: var(--space-2);
+    margin-bottom: var(--space-1);
+
+    border-radius: var(--space-2);
+
+    transition: all 0.7s;
+}
+
+.before-due {
+    background-color: var(--clr-tertiary);
+}
+
+.within-hour {
+    background-color: var(--clr-secondary);
+}
+
+.past-due {
+    background-color: var(--clr-quaternary);
+}
+
+.todo-completed {
+    color: var(--clr-text-primary-dim);
+}
+
+.todo-list-item h3 {
+    justify-self: left;
+    position: relative;
+}
+
+.todo-list-item span {
+    position: relative;
+}
+
+.todo-completed h3::before,
+.todo-completed span:last-child::before {
+    content: '';
+    position: absolute;
+
+    top: 0.7em;
+    left: -1px;
+    width: calc(100% + 2px);
+    height: 2px;
+
+    background-color: var(--clr-text-primary-dim);
+    
+    transform-origin: left;
+    animation: drawLine 0.7s ease-in;
+}
+
+@keyframes drawLine {
+    from {
+        transform: scaleX(0);
+    }
+    to {
+        transform: scaleX(1);
+    }
+}
+
+#add-main {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    position: fixed;
+    bottom: var(--space-2);
+    right: var(--space-2);
+
+    width: 50px;
+    aspect-ratio: 1/1;
+
+    background-color: var(--clr-primary-overlay);
+    
+    border: none;
+    border-radius: 16px;
+
+    cursor: pointer;
+
+    transition: all 0.5s;
+
+    anchor-name: --add-tooltip;
+}
+
+#add-main:hover,
+#add-main.active {
+    background-color: var(--clr-primary);
+}
+
+#add-main svg {
+    width: 30px;
+    transition: all 0.4s ease-in-out;
+    transform-origin: center;
+    pointer-events: none;
+}
+
+.add-svg-line {
+    stroke-width: 9;
+    stroke-linecap: round;
+
+    stroke: var(--clr-text-secondary);
+}
+
+#add-main.active svg {
+    transform: rotate(45deg);
+}
+
+#add-main-tooltip {
+    position: fixed;
+    position-anchor: --add-tooltip;
+
+    bottom: calc(anchor(top) + 5px);
+    right: var(--space-2);
+
+    background-color: var(--clr-primary);
+    padding: var(--space-2);
+    border-radius: var(--space-3);
+
+    font-size: var(--text-m);
+    transition: all 0.4 ease-in-out;
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition: all 0.4s;
+}
+
+#add-main-tooltip.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#add-main-tooltip button {
+    display: grid;
+    place-items: stretch;
+    padding: var(--space-2);
+    border: none;
+
+    width: 100%;
+
+    background-color: inherit;
+    color: var(--clr-text-secondary);
+
+    cursor: pointer;
+}
+
+#add-main-tooltip button:first-child {
+    border-radius: var(--space-2) var(--space-2) 0 0;
+    border-bottom: 1px solid var(--clr-text-secondary);
+}
+
+#add-main-tooltip button:last-child {
+    border-radius: 0 0 var(--space-2) var(--space-2);
+}
+
+#add-main-tooltip button:hover{
+    background-color: var(--clr-primary-l);
+}
