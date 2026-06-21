@@ -38,6 +38,7 @@ export function allTodosTimeArrange() {
 
     lists.forEach(list => list.todos.forEach(todo => {
         todo.list = list.title;
+        todo.listId = list.id;
         if(!todo.completed) {
             todo.dueStat = checkDue(todo)
         }

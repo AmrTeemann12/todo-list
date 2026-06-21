@@ -85,7 +85,7 @@ export class TaskList {
         if(this.#todos.length < 1) return 'empty';
         
         if(this.#todos.every(todo => todo.completed === true)) return 'done';
-        if(this.#todos.some(todo => todo.startDate < new Date() )) return 'doing';
-        if(this.#todos.every(todo => todo.startDate > new Date())) return 'to do';
+        if(this.#todos.some(todo => todo.completed === true )) return 'doing';
+        if(this.#todos.every(todo => todo.completed === false)) return 'to do';
     }
 }

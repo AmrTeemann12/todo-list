@@ -8,9 +8,12 @@
 }
 
 input,
+select,
 button {
     font-family: inherit;
+    font-weight: inherit;
     font-size: 100%;
+    text-align: inherit;
     color: inherit;
 }
 
@@ -23,9 +26,9 @@ li {
     --text-xs: 0.625rem;
     --text-s: 0.875rem;
     --text-base: 1rem;
-    --text-m: 1.125rem;
-    --text-l: 1.825rem;
-    --text-xl: 2.5rem;
+    --text-m: 1.25rem;
+    --text-l: 1.625rem;
+    --text-xl: 2.25rem;
     --text-xl-header: 4rem;
 
     --fw-normal: 400;
@@ -65,7 +68,7 @@ html {
 body {
     font-family: var(--ff);
     display: grid;
-    grid-template-columns: 200px 1fr;
+    grid-template-columns: 220px 1fr;
     background-color: var(--clr-bg);
     color: var(--clr-text-primary);
 
@@ -75,17 +78,24 @@ body {
 nav {
     background-color: var(--clr-primary);
     color: var(--clr-text-secondary);
-    padding: calc(var(--space-1));
+    padding: var(--space-1);
     
     display: flex;
     flex-direction: column;
     gap: var(--space-1);
-    
-    overflow-y: auto;
+        
     scrollbar-width: thin;
 }
 
+.alt-nav {
+    display: none;
+}
+
 .main-list button {
+    font-size: var(--text-m);
+    font-weight: var(--fw-bold);
+    text-align: center;
+
     width: 100%;
     background-color: var(--clr-bg-l);
     color: var(--clr-primary-d);
@@ -100,57 +110,95 @@ nav {
     transition: all 0.4s;
 }
 
-.main-list button:hover,
-.main-list button:active {
+.main-list button:hover {
     background-color: var(--clr-primary-vl);
     
+}
+
+#menu {
+    display: none;
 }
 
 .nav-categories {
     padding: var(--space-2) 0;
 }
 
-.nav-category {
-    margin-bottom: var(--space-2);
-}
-
-.nav-category > button {
-    width: 100%;
-    text-align: left;
-    background-color: var(--clr-primary-d);
-    
+.nav-categories button {
+    background-color: transparent;
     border: none;
-    border-bottom: 2px solid;
-    padding: var(--space-2);
     cursor: pointer;
 
     transition: all 0.4s;
 }
 
-.nav-category > button:hover {
+.nav-category {
+    font-size: var(--text-base);
+    font-weight: var(--fw-normal);
+    text-align: left;
+
+    margin-bottom: var(--space-2);
+}
+
+.nav-category-header {
+    font-size: var(--text-m);
+    font-weight: var(--fw-bold);
+
+    width: 100%;
+    background-color: var(--clr-primary-d);
+    
+    border-bottom: 2px solid;
+    padding: var(--space-2);
+
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 3px;
+}
+
+.nav-category-header > button:first-child{
+    flex: 1;
+    border-radius: 8px;
+    padding: var(--space-2);
+}
+
+.nav-category-header span {
+    margin-left: auto;
+}
+
+.nav-icon-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 99px;
+    width: 2.2rem;
+    aspect-ratio: 1/1;
+}
+
+.nav-icon-btn svg{
+    fill: var(--clr-text-secondary);
+    width: 20px;
+    pointer-events: none;
+}
+
+.nav-category-header button:hover {
     background-color: var(--clr-primary-l);
 }
 
 
 .nav-categories ul {
-    margin-left: var(--space-3);
+    margin-left: var(--space-2);
     background-color: var(--clr-primary-light);
 }
 
 .nav-list-title{
-    text-align: left;
-    background-color: inherit;
     color: var(--clr-text-secondary);
     padding: var(--space-1);
-    border: none;
     
-    display: inline-block;
+    font-weight: var(--fw-bold);
     width: 100%;
     overflow: hidden;
     text-overflow:ellipsis;
-
-    cursor: pointer;
-    transition: all 0.4s;
 }
 
 .nav-list-title:hover {
@@ -162,8 +210,10 @@ main li {
 }
 
 h1 {
-    margin-bottom: var(--space-3);
+    font-size: var(--text-xl);
     font-weight: var(--fw-bold);
+
+    margin-bottom: var(--space-3);
     padding: var(--space-3) var(--space-2);
 
     background-color: var(--clr-primary-l);
@@ -175,6 +225,7 @@ h1 {
 }
 
 .all-to-do-container h2{
+    font-size: var(--text-l);
     font-weight: var(--fw-bold);
     background-color: var(--clr-bg-dim);
 
@@ -186,15 +237,16 @@ h1 {
 .category-and-list-view {
     display: block;
     font-size: var(--text-s);
-    font-weight: var(--fw-normal);
+    font-weight: var(--fw-semibold);
 }
 
 .badged-todo-list li{
     grid-template-areas: 
-    "badge badge badge"
-    "check title priority";
-    grid-template-columns: auto 1fr auto;
+    "badge badge badge badge"
+    "check title distance priority";
+    grid-template-columns: auto 1fr auto 100px;
     align-items: center;
+    
     margin-bottom: var(--space-3);
 }
 
@@ -204,23 +256,62 @@ h1 {
     "title stat"
     "list list";
     align-items: center;
+
     margin-bottom: var(--space-3);
 }
 
 .todo-details > div {
     margin-bottom: var(--space-1);
+    padding: var(--space-2);
+    background-color: var(--clr-text-secondary);
 }
 
 .todo-detail-label {
+    font-size: var(--text-base);
+    font-weight: var(--fw-bold);
     display: inline-block;
-    width: 100px;
+    width: 7rem;
 }
 
 .tasklist-list-item {
     grid-template-areas: 
     "title stat"
     "list list";
+    align-items: center;
+    grid-template-columns: 1fr auto;
+    gap: 5px;
+
     margin-bottom: var(--space-3)
+}
+
+.tasklist-list-item h2 {
+    justify-self: left;
+    cursor: pointer;
+}
+
+.list-stat {
+    font-size: var(--text-s);
+    padding: var(--space-1) var(--space-2);
+    border-radius: 4px;
+    justify-self: right;
+
+    color: var(--clr-bg-l);
+}
+
+.list-stat-doing {
+    background-color: var(--clr-secondary);
+}
+
+.list-stat-to-do {
+    background-color: var(--clr-quaternary);
+}
+
+.list-stat-done {
+    background-color: var(--clr-tertiary);
+}
+
+.list-stat-empty {
+    background-color: var(--clr-text-primary-dim);
 }
 
 .badged-tasklist-list .top-badge {
@@ -232,7 +323,7 @@ h1 {
 
     padding: 4px;
     display: inline-block;
-    border: 1px solid;
+    border: 1px solid var(--clr-text-primary);
     border-radius: var(--space-3);
 
     justify-self: start;
@@ -253,7 +344,9 @@ h1 {
     background-color: var(--clr-text-secondary);
 
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-areas: 
+    "check title distance priority";
+    grid-template-columns: auto 1fr auto 100px;
     align-items: center;
     gap: 5px;
 
@@ -282,37 +375,68 @@ h1 {
 }
 
 .todo-list-item h3 {
+    grid-area: title;
+    font-size: var(--text-m);
     justify-self: left;
     position: relative;
+    cursor: pointer;
 }
 
 .todo-list-item span {
     position: relative;
 }
 
-.todo-completed h3::before,
-.todo-completed span:last-child::before {
-    content: '';
-    position: absolute;
-
-    top: 0.7em;
-    left: -1px;
-    width: calc(100% + 2px);
-    height: 2px;
-
-    background-color: var(--clr-text-primary-dim);
-    
-    transform-origin: left;
-    animation: drawLine 0.7s ease-in;
+.todo-completed h3,
+.todo-completed span:last-child,
+.todo-completed .todo-time-distance {
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+    text-decoration-color: var(--clr-text-primary-dim);
 }
 
-@keyframes drawLine {
-    from {
-        transform: scaleX(0);
-    }
-    to {
-        transform: scaleX(1);
-    }
+.todo-priority {
+    justify-self: right;
+}
+
+.task-bar {
+    padding: var(--space-2);
+    width: fit-content;
+
+    display: flex;
+    gap: var(--space-2);
+    border-radius: 8px;
+}
+
+.task-bar button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    
+    border: none;
+    border-radius: 99px;
+    padding: var(--space-2);
+
+    background-color: var(--clr-primary-l);
+
+    cursor: pointer;
+}
+
+.task-bar button:hover {
+    background-color: var(--clr-primary-vl);
+}
+
+.task-bar button:last-child:not(:only-child) {
+    background-color: var(--clr-secondary);
+}
+
+.task-bar button:last-child:not(:only-child):hover {
+    background-color: var(--clr-quaternary);
+}
+
+.task-bar button svg {
+    width: 20px;
+    pointer-events: none;
+    fill: var(--clr-bg);
 }
 
 #add-main {
@@ -412,4 +536,177 @@ h1 {
 
 #add-main-tooltip button:hover{
     background-color: var(--clr-primary-l);
+}
+
+dialog {
+    position: fixed;
+    font-size: var(--text-base);
+
+    padding: var(--space-3);
+    padding-top: var(--space-4);
+    border: none;
+    border-radius: 8px;
+
+    background-color: var(--clr-primary-l);
+
+    box-shadow: 0px 0px 12px 1px #1a1a1a;
+}
+
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(2px);
+}
+
+.close-btn {
+    position: absolute;
+    right: var(--space-1);
+    top: var(--space-1);
+    border: none;
+    background-color: transparent;
+
+    height: 30px;
+    border-radius: 99px;
+    cursor: pointer;
+}
+
+.close-btn:hover svg {
+    fill: var(--clr-bg-dim);
+}
+
+.close-btn svg {
+    width: 30px;
+    fill: var(--clr-bg);
+    pointer-events: none;
+}
+
+form h2{
+    font-size: var(--text-l);
+    font-weight: var(--fw-bold);
+    
+    color: var(--clr-text-secondary);
+}
+
+.form-control {
+    margin-bottom: var(--space-2);
+    background-color: var(--clr-primary-vl);
+    padding: var(--space-2);
+    border-radius: 8px;
+}
+
+.form-control label {
+    display: block;
+    color: var(--clr-text-primary);
+}
+
+.form-control input,
+.form-control select {
+    background-color: var(--clr-bg);
+    border: none;
+    border-radius: 4px;
+    padding: 2px;
+    width: 100%;
+}
+
+.submit-btn {
+    display: block;
+    font-size: var(--text-m);
+    font-weight: var(--fw-bold);
+
+    padding: var(--space-2) var(--space-3);
+    margin: 2px auto;
+    background-color: var(--clr-primary);
+    color: var(--clr-text-secondary);
+
+    border: none;
+    border-radius: 8px;
+
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+.submit-btn:hover {
+    background-color: var(--clr-primary-d);
+}
+
+@media only screen and (max-width: 767px) {
+    body {
+        grid-template-columns: 180px 1fr;
+    }
+}
+
+@media only screen and (max-width: 670px) {
+    body {
+        grid-template-columns: auto;
+        grid-template-rows: auto 1fr;
+    }
+    .main-list {
+        display: flex;
+        flex-direction: row;
+    }
+
+    #menu {
+        display: block;
+        flex: 0;
+    }
+
+    #menu svg {
+        fill: var(--clr-bg);
+        pointer-events: none;
+    }
+
+    .alt-nav {
+        background-color: var(--clr-primary);
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 80vw;
+        height: 100%;
+        padding-top: var(--space-4);
+        box-shadow: 1px 2px 10px 0px #1a1a1a;
+        z-index: 999;
+    }
+
+    .alt-nav.active {
+        display: block;
+    }
+
+    .main-list button {
+        padding: var(--space-2);
+        background-color: transparent;
+        color: var(--clr-bg);
+        white-space: nowrap;
+    }
+
+    .main-list button:not(:last-child) {
+        border-right: 2px solid var(--clr-bg);
+    }
+
+    nav > .nav-categories {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    :root {
+        --text-m: 1.125rem;
+    }
+
+    .badged-todo-list li{
+        grid-template-areas: 
+        "badge badge badge"
+        "check title title"
+        "distance distance priority";
+        grid-template-columns: auto auto 1fr;
+    }
+
+    .todo-list-item {
+        grid-template-areas: 
+        "check title title"
+        "distance distance priority";
+        grid-template-columns: auto auto 1fr;
+    }
+
+    .todo-time-distance {
+        grid-area: distance;
+    }
 }

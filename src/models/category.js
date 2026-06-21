@@ -1,7 +1,7 @@
 const categoryList = ['general', 'work', 'family', 'entertainment'];
 
 export function categoryAdd(name) {
-        if(categoryList.includes(name.toLowerCase())) {
+    if(categoryList.includes(name.toLowerCase())) {
         throw new Error('category name must be unique');
     }
 
@@ -19,6 +19,31 @@ export function categoryAdd(name) {
 
 export function categoryNames() {
     return categoryList.map(category => category)
+}
+
+export function categoryRename(oldName, newName) {
+    const index = categoryList.findIndex(category => category === oldName.toLowerCase())
+
+    if(categoryList[index] === 'general') {
+        throw new Error('general category can\'t be renamed')
+    }
+
+    if(oldName === newName) return false;
+    
+    if(categoryList.includes(name.toLowerCase())) {
+        throw new Error('category name must be unique');
+    }
+    
+    if(newName.trim() === '') {
+        throw new Error('category name can\'t be empty')
+    }
+
+    if(name.length > 50) {
+        throw new Error('max category name length exceeded')
+    }
+
+    categoryList[index] = newName.toLowerCase();
+    return true;
 }
 
 export function categoryDelete(categoryName) {

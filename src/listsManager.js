@@ -1,5 +1,5 @@
 import { TaskList } from "./models/list.js";
-import { categoryAdd, categoryDelete, categoryNames } from "./models/category.js";
+import { categoryAdd, categoryDelete, categoryNames, categoryRename } from "./models/category.js";
 
 const lists = [];
 
@@ -53,6 +53,7 @@ export function changeListTitle(listId, newTitle) {
     }
 
     targetList.title = newTitle;
+    return true;
 }
 
 export function changeListCategory(listId, categoryName) {
@@ -72,20 +73,17 @@ export function changeListCategory(listId, categoryName) {
     }
 
     targetList.category = categoryName.toLowerCase();
+    return true;
 }
 
-export function categoryRename(currentName, newName) {
-    if(currentName === 'general') {
-        throw new Error('general category can\'t be renamed')
-    }
-
-    categoryAdd(newName);
+export function changeCategoryTitle(oldName, newName) {
+    categoryRename(oldName, newName);
     lists.forEach(list => {
-        if(list.category === currentName){
+        if(list.category === oldName){
            list.category = newName.toLowerCase();
         }
     });
-    categoryDelete(currentName)
+    return true;
 }
 
 export function updateTodoInList(listId, todoId, changes) {
