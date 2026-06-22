@@ -161,7 +161,7 @@ function handleNavigation(e) {
     }
 
     if(e.target.dataset.action === 'open-category') {
-        const categoryName = e.target.textContent.toLowerCase();
+        const categoryName = e.target.closest('[data-category]').dataset.category;
         loadCategoryPage(categoryName);
     }
 
@@ -544,17 +544,27 @@ document.addEventListener('click', (e) => {
     handleDeleteActions(e);
     handleFormSubmit(e);
 
-   if(
+    //handle closing the addMainBtn anchor tooltip when click outside them
+    if(
         !addMainBtn.contains(e.target)
         && !addMainTooltip.contains(e.target)
         && addMainBtn.classList.contains('active')
     ) {
         addMainBtn.classList.remove('active');
-        addMainTooltip.classList.remove('active')
+        addMainTooltip.classList.remove('active');
     }
 
+    //handle closing altNav when clicking a button in it or clicking outside it
     if(e.target.localName === 'button' && altNav.contains(e.target)) {
-        altNav.classList.remove('active')
+        altNav.classList.remove('active');
+    }
+
+    if(
+        !altNav.contains(e.target)
+        && altNav.classList.contains('active')
+        && e.target.id !== 'menu'
+    ) {
+        altNav.classList.remove('active');
     }
 });
 
@@ -601,7 +611,13 @@ document.addEventListener('change', (e) => {
     }
 })
 
-document.addEventListener('submit', (e) => e.preventDefault())
+document.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const actionElm = e.target.querySelector('[data-action^=submit]')
+    if(actionElm) {
+        handleFormSubmit({target: actionElm})
+    }
+})
 
 addMainBtn.addEventListener('click', () => {
     addMainBtn.classList.toggle('active');
