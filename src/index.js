@@ -612,3 +612,5 @@ addCategoryMain.addEventListener('click', () => {
     const form = createElms.addCategoryForm();
     showDialog(form);
 })
+
+loadTodayPage()
