@@ -24,6 +24,18 @@ export class Todo {
         this.#due = validateDue(due, this.#startDate);
     }
 
+    static retrieveTodoFromData(todoData) {
+        const todo = new Todo(todoData.title, todoData.priority, todoData.desc);
+        
+        todo.#dateCreated = new Date(todoData.dateCreated);
+        todo.#startDate = new Date(todoData.startDate);
+        todo.#due = todoData.due? new Date(todoData.due): null;
+        todo.#id = todoData.id;
+        todo.#completed = todoData.completed;
+        
+        return todo;
+    }
+
     get dateCreated() {
         return new Date(this.#dateCreated);
     }

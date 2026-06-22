@@ -26,33 +26,6 @@ import {
 import { categoryAdd, categoryDelete, categoryNames } from './models/category.js';
 import { format, addHours } from 'date-fns';
 
-createList('movies', 'entertainment', [
-    {title: 'elephant man', priority: 'high', desc: 'good tragic movie form the 1970s I think', due: new Date('2026-7-1')},
-    {title: 'v for vendetta', priority: 'low', startDate: new Date('2027-01-01') },
-    {title: 'Blade Runner 2049', priority: 'moderate', startDate: new Date('2026-07-16') },
-])
-
-createList('somethings to do', 'general', [
-    {title: 'something to do1', startDate: new Date('2026-06-21T23:50:00'), due: new Date('2026-06-22T22:55')},
-    {title: 'something to do2', startDate: new Date('2026-06-21T23:00:00'), due: new Date('2026-06-22T00:00')},
-    {title: 'something to do3', startDate: new Date('2026-06-22'), due: new Date('2026-06-23T00:00')},
-    {title: 'something to do4', startDate: new Date('2026-06-22T10:20'), due: new Date('2026-06-23T00:00')},
-    {title: 'something to do5', startDate: new Date('2026-7-13'), due: new Date('2026-08-12T10:00')},
-])
-
-createList('really long list name but I cannot think of a specific name yet', 'work', [
-    {title: 'some todo'}
-])
-
-createList('some other things', 'general')
-
-const list = readAllLists();
-toggleTodoStatInList(list[0].id, list[0].todos[0].id)
-
-console.log(list)
-//those above are some lists and todos and status change just for testing
-
-
 const navbar = document.querySelector('nav');
 const main = document.querySelector('main');
 const altNav = document.querySelector('.alt-nav');
@@ -598,7 +571,7 @@ document.addEventListener('change', (e) => {
 
     if(e.target.dataset.action === 'toggle-todo-stat') {
         const item = e.target.parentElement;
-        const todoId = item.closest('[data-id').dataset.id;
+        const todoId = item.closest('[data-id]').dataset.id;
         const listId = item.closest('[data-list-id]').dataset.listId;
         const todo = getTodoDataById(todoId);
         const list = getListDataByListId(listId);

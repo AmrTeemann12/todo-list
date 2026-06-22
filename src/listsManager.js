@@ -1,7 +1,44 @@
 import { TaskList } from "./models/list.js";
 import { categoryAdd, categoryDelete, categoryNames, categoryRename } from "./models/category.js";
+import { getListsData , removeListInStorage, storeTaskList, updateListInStorage } from "./listsStorage.js";
 
-const lists = [];
+function storageAvailable(type) {
+  let storage;
+  try {
+    storage = window[type];
+    const x = "__storage_test__";
+    storage.setItem(x, x);
+    storage.removeItem(x);
+    return true;
+  } catch (e) {
+    return (
+      e instanceof DOMException &&
+      e.name === "QuotaExceededError" &&
+      // acknowledge QuotaExceededError only if there's something already stored
+      storage &&
+      storage.length !== 0
+    );
+  }
+}
+
+function getStoredLists() {
+    const storedLists = getListsData();
+    const lists = [];
+
+    storedLists.forEach(listData => {
+        const list = TaskList.retrieveTaskListFromData(listData);
+        lists.push(list);
+    })
+
+    return lists
+}
+
+const lists = []
+
+if(storageAvailable('localStorage')) {
+    const data = getStoredLists();
+    lists.push(...data);
+}
 
 function findListById(listId) {
     const list = lists.find(list => list.id === listId);
@@ -26,6 +63,10 @@ export function createList(title, category = 'general', todoRequests) {
         });
     }
 
+    if (storageAvailable('localStorage')) {
+        storeTaskList(list);
+    }
+        
     lists.push(list);
 }
 
@@ -33,6 +74,9 @@ export function addTodoToList(listId, todoRequest) {
     const list = findListById(listId)
 
     list.addTodo(todoRequest);
+    updateListInStorage(list);
+
+    return true;
 }
 
 export function readAllLists() {
@@ -53,6 +97,8 @@ export function changeListTitle(listId, newTitle) {
     }
 
     targetList.title = newTitle;
+    updateListInStorage(targetList);
+
     return true;
 }
 
@@ -73,6 +119,8 @@ export function changeListCategory(listId, categoryName) {
     }
 
     targetList.category = categoryName.toLowerCase();
+    updateListInStorage(targetList);
+    
     return true;
 }
 
@@ -80,7 +128,8 @@ export function changeCategoryTitle(oldName, newName) {
     categoryRename(oldName, newName);
     lists.forEach(list => {
         if(list.category === oldName){
-           list.category = newName.toLowerCase();
+            list.category = newName.toLowerCase();
+            updateListInStorage(list);
         }
     });
     return true;
@@ -90,12 +139,17 @@ export function updateTodoInList(listId, todoId, changes) {
     const list = findListById(listId);
 
     list.updateTodo(todoId, changes);
+    updateListInStorage(list);
+
+    return true
 }
 
 export function toggleTodoStatInList(listId, todoId) {
     const list = findListById(listId);
 
     list.toggleTodoStat(todoId);
+    updateListInStorage(list);
+
     return true;
 }
 
@@ -107,10 +161,12 @@ export function removeCategory(categoryName) {
     lists.forEach(list => {
         if(list.category === categoryName) {
             list.category = 'general';
+            updateListInStorage(list);
         }
     });
 
     categoryDelete(categoryName);
+    return true;
 }
 
 export function removeList(listId) {
@@ -121,6 +177,8 @@ export function removeList(listId) {
     }
 
     lists.splice(listIndex, 1);
+    removeListInStorage(listId);
+
     return true;
 }
 
@@ -128,4 +186,7 @@ export function removeListTodo(listId, todoId) {
     const list = findListById(listId);
 
     list.removeTodo(todoId);
+    updateListInStorage(list);
+
+    return true;
 }

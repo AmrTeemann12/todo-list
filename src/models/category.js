@@ -1,4 +1,12 @@
-const categoryList = ['general', 'work', 'family', 'entertainment'];
+const DEFAULT_CATEGORIES = ['general', 'work', 'personal', 'family', 'entertainment'];
+const local = localStorage.getItem('categories');
+const categoryList = local? JSON.parse(local) : DEFAULT_CATEGORIES; 
+
+function updateCategoryList(newCatList) {
+    const newCatListStr = JSON.stringify(newCatList);
+    localStorage.setItem('categories', newCatListStr);
+    return true;
+}
 
 export function categoryAdd(name) {
     if(categoryList.includes(name.toLowerCase())) {
@@ -14,6 +22,7 @@ export function categoryAdd(name) {
     }
 
     categoryList.push(name.toLowerCase());
+    updateCategoryList(categoryList);
     return true;
 }
 
@@ -28,9 +37,9 @@ export function categoryRename(oldName, newName) {
         throw new Error('general category can\'t be renamed')
     }
 
-    if(oldName === newName) return false;
+    if(oldName === newName) return true;
     
-    if(categoryList.includes(name.toLowerCase())) {
+    if(categoryList.includes(newName.toLowerCase())) {
         throw new Error('category name must be unique');
     }
     
@@ -38,11 +47,12 @@ export function categoryRename(oldName, newName) {
         throw new Error('category name can\'t be empty')
     }
 
-    if(name.length > 50) {
+    if(newName.length > 50) {
         throw new Error('max category name length exceeded')
     }
 
     categoryList[index] = newName.toLowerCase();
+    updateCategoryList(categoryList);
     return true;
 }
 
@@ -58,5 +68,6 @@ export function categoryDelete(categoryName) {
     }
     
     categoryList.splice(index, 1);
+    updateCategoryList(categoryList);
     return true
 }

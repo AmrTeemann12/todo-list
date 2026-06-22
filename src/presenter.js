@@ -1,4 +1,4 @@
-import { addDays, addHours, addWeeks, isBefore, startOfToday, startOfTomorrow } from 'date-fns';
+import { addDays, addHours, addWeeks, isAfter, isBefore, startOfToday, startOfTomorrow } from 'date-fns';
 import { readAllLists } from './listsManager.js';
 import { categoryAdd, categoryNames, categoryDelete } from './models/category.js';
 
@@ -85,11 +85,12 @@ export function listTodosTimeArrange(list) {
 export function checkDue(todo) {
     const now = new Date();
     const oneHourLater = addHours(new Date(), 1);
-    const dueDate = todo.due
+    const dueDate = todo.due;
+    const startDate = todo.startDate;
     if(dueDate) {
         if(isBefore(dueDate, now)) {
             return 'past-due';
-        } else if(isBefore(dueDate, oneHourLater)) {
+        } else if(isBefore(dueDate, oneHourLater) && isBefore(startDate, now)) {
             return 'within-hour';
         } else {
             return 'before-due';

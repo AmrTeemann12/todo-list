@@ -18,6 +18,15 @@ export class TaskList {
         this.category = category;
     }
 
+    static retrieveTaskListFromData(listData) {
+        const list = new TaskList(listData.title, listData.category);
+
+        list.#id = listData.id;
+        list.#todos = listData.todos.map(todoData => Todo.retrieveTodoFromData(todoData));
+
+        return list;
+    }
+
     get title() {
         return this.#title;
     }

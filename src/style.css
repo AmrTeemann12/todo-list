@@ -363,11 +363,11 @@ h1 {
 }
 
 .within-hour {
-    background-color: var(--clr-secondary);
+    background-color: var(--clr-quaternary);
 }
 
 .past-due {
-    background-color: var(--clr-quaternary);
+    background-color: var(--clr-secondary);
 }
 
 .todo-completed {

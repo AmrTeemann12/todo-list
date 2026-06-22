@@ -1,4 +1,4 @@
-import {format, formatDistanceToNow, formatDistanceToNowStrict} from "date-fns";
+import {format, formatDistanceToNowStrict, formatDistanceStrict} from "date-fns";
 
 const editIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="20px" viewBox="0 0 24 24"><path d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" /></svg>';
 const addIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="20px" viewBox="0 0 24 24"><path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" /></svg>';
@@ -18,9 +18,10 @@ function formatDate(date) {
     return format(date, "yyyy/MM/dd hh:mm a");
 }
 
-function calcDistanceFromNow(startDate) {
-    if(startDate < new Date()) return ' ';
-    return `starts in ${formatDistanceToNowStrict(startDate)}`;
+function calcDistanceFromNow(todo) {
+    if(todo.startDate > new Date()) return `starts in ${formatDistanceToNowStrict(todo.startDate)}`;
+    if(todo.due > new Date())  return `due in ${formatDistanceToNowStrict(todo.due)}`;
+    return " ";
 }
 
 export const createElms = {
@@ -120,7 +121,7 @@ export const createElms = {
         todoPriority.textContent = todo.priority;
         todoPriority.classList.add(`priority-${todo.priority}`, 'todo-priority');
 
-        timeDistance.textContent = calcDistanceFromNow(todo.startDate);
+        timeDistance.textContent = calcDistanceFromNow(todo);
         timeDistance.classList.add('todo-time-distance');
 
         todoItem.append(todoCheck, todoTitle, timeDistance, todoPriority)
